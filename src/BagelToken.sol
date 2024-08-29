@@ -7,7 +7,7 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 contract BagelToken is ERC20, Ownable {
     constructor() ERC20("BagelToken", "BGL") Ownable(msg.sender) {}
 
-    mint(address to, uint256 amount) external onlyOwner {
+    function mint(address to, uint256 amount) external onlyOwner {
         _mint(to, amount);
     }
 }
