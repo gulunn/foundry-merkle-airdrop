@@ -5,8 +5,10 @@ pragma solidity ^0.8.24;
 import {Test, console} from "forge-std/Test.sol";
 import {MerkleAirdrop} from "../src/MerkleAirdrop.sol";
 import {BagelToken} from "../src/BagelToken.sol";
+import {DeployMerkleAirdrop} from "../script/DeployMerkleAirdrop.s.sol";
 
 contract MerkleAirdropTest is Test {
+    DeployMerkleAirdrop deployer;
     MerkleAirdrop merkleAirdrop;
     BagelToken bagelToken;
 
@@ -21,10 +23,8 @@ contract MerkleAirdropTest is Test {
 
     function setUp() public {
         // Deploy token and airdrop contracts and mint some tokens to the airdrop contract
-        bagelToken = new BagelToken();
-        merkleAirdrop = new MerkleAirdrop(bagelToken, ROOT);
-        bagelToken.mint(bagelToken.owner(), AMOUNT * 4);
-        bagelToken.transfer(address(merkleAirdrop), AMOUNT * 4);
+        deployer = new DeployMerkleAirdrop();
+        (bagelToken, merkleAirdrop) = deployer.run();
         (user, userPrivateKey) = makeAddrAndKey("user");
     }
 
